@@ -1,3 +1,7 @@
+import { paisesRouter } from './routes/paisRoutes';
+//import { provinciasRouter } from './routes/paisRoutes';
+//import { ciudadesRouter } from './routes/paisRoutes';
+//import { tiemporsRouter } from './routes/paisRoutes';
 
 import { ObjectId } from 'mongodb';
 import * as mongoDB from "mongodb";
@@ -18,9 +22,6 @@ const port = 3000
 
 
 app.use(express.json());
-
-
-
 
 
 const collections: { paises?: mongoDB.Collection } = {}
@@ -351,7 +352,6 @@ function PaisByName(nombre: String) {
   const pais = getPais(_req.params.pais)
   _res.status(200).send(pais)   
      }
-
  )
 
  
