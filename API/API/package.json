@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "sha512-crypt-ts": "^0.1.27"
+  }
+}
