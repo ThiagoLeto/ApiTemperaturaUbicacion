@@ -64,5 +64,24 @@ export default{
         } catch (error) {
             _res.status(400).send("el que dice error es puto");
         }
+    }),
+
+    getTemperaturaProvincia: (async (_req,_res)=> {
+        if (!_req.params.pais) {
+            return _res.status(400).send("te falto el pais capo")
+          }
+          if (!_req.params.provincia) {
+            return _res.status(400).send("te falto provincia capo")
+          }
+          let grados:Array<Number> = new Array<Number>  
+           const pais = await getPais( _req.params.pais )
+           if(!pais){return _res.status(400).send("nope")}
+          const x = pais.provincias.find( (pa)=> pa.nombre===_req.params.provincia )
+          if(!x) { return _res.status(400).send("snickers?")}
+          x.ciudades.forEach( (city)=> { city.registroDeTemperatura.forEach( (regs)=>{ grados.push(regs.grados) } ) } )
+          let promedio:Number = new Number; 
+          grados.forEach( (celsius)=> { if(!promedio){promedio=celsius.valueOf()}else{promedio=promedio.valueOf()+celsius.valueOf() }  }  )
+          if(promedio) { return _res.json({ "promedio" : promedio.valueOf()/grados.length}) }
+          return _res.sendStatus(400)
     })
 }

@@ -1,42 +1,56 @@
-
 import express, { json } from 'express';
 import swaggerDocs from './swagger';
-//import {dbPromise,DB_CONN_STRING,DB_NAME,COLLECTION_NAME,ConvertColectionToPais,ConvertDocumentToPais,getPais,findPais,findCiudad,findProvincia,collections} from './DataBaseFunctions/DBFunctions';
-import {paisRoutes} from "./routes/paisRoutes";
+import { paisRoutes } from "./routes/paisRoutes";
 import { provinciasRoutes } from './routes/provinciaRoutes';
 import { ciudadesRoutes } from './routes/ciudadRoutes';
 import { tiemposRoutes } from './routes/tiempoRoutes';
+import { UserRoutes } from './routes/userRoutes';
 
 const app = express();
 app.use(express.json());
 const port = 3000
+
 paisRoutes(app)
 provinciasRoutes(app)
-ciudadesRoutes(app)//
+ciudadesRoutes(app)
 tiemposRoutes(app)
-
+UserRoutes(app)
 
 
 async function main() {
-//const db = await dbPromise;
+  app.get('/', (_req , _res) => _res.send('Bienvenido a mi API REST!'));
 
-
-
-
-
-app.get('/', (_req , _res) => _res.send('Bienvenido a mi API REST!'));
-
-
-app.listen(port, () => {console.log(`Escuchando en el puerto ${port}!`); 
-  swaggerDocs(app,port)  
-});
- 
+  app.listen(port, () => {console.log(`Escuchando en el puerto ${port}!`); 
+    swaggerDocs(app,port)  
+  }); 
 } 
 
- main()
+main()
+
+/*
+
+npm init
+npm install typescript --save --dev
+// npm install ts-node --save --dev
+npm install nodemon --save --dev
+npm install express
+npm install @types/express 
+npm tsc --init
+
+npm install mongodb 
+npm install ts-node
+npm install swagger-ui-express
+npm install swagger-jsdoc
+
+npm install jsonwebtoken bcryptjs express-jwt @types/express-jwt @types/jsonwebtoken @types/bcryptjs
+
+npx nodemon index.ts
+
+*/ 
 
 
- /** 
+
+/** 
 * @openapi
 * paths:
 *   /paises/{pais}:
@@ -354,7 +368,7 @@ app.listen(port, () => {console.log(`Escuchando en el puerto ${port}!`);
 /** 
 * @openapi
 * paths:
-*   /paises/{pais}/ciudades:
+*   /paises/{pais}/provincias:
 *     delete:
 *       parameters:
 *         - in: path
@@ -386,7 +400,7 @@ app.listen(port, () => {console.log(`Escuchando en el puerto ${port}!`);
 /** 
 * @openapi
 * paths:
-*   /paises/{pais}/provincias/{provincia}:
+*   /paises/{pais}/provincias/{provincia}/ciudades:
 *     delete:
 *       parameters:
 *         - in: path
@@ -579,7 +593,7 @@ app.listen(port, () => {console.log(`Escuchando en el puerto ${port}!`);
 /** 
 * @openapi
 * paths:
-*   /paises/{pais}:
+*   /paises/{pais}/provincias:
 *     post:
 *       parameters:
 *         - in: path
@@ -610,7 +624,7 @@ app.listen(port, () => {console.log(`Escuchando en el puerto ${port}!`);
 /** 
 * @openapi
 * paths:
-*   /paises/{pais}/provincias/{provincia}:
+*   /paises/{pais}/provincias/{provincia}/ciudades:
 *     post:
 *       parameters:
 *         - in: path

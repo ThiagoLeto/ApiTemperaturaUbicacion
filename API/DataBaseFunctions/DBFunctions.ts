@@ -2,11 +2,13 @@ export const DB_CONN_STRING="mongodb://localhost:27017"
 export const DB_NAME="BaseDeTemperaturas"
 export const COLLECTION_NAME="paises"
 import * as mongoDB from "mongodb";
-import { Pais } from '../Pais';
-import { Provincia } from '../Provincia';
+import { Pais } from '../models/Pais';
+import { Provincia } from '../models/Provincia';
+
 export const collections: { paises?: mongoDB.Collection } = {}
+
 export async function findPais(paises:Pais[],target:string) {
- return paises.find( (pais)=> pais.nombre.toLowerCase() === target.toLocaleLowerCase() )
+  return paises.find( (pais)=> pais.nombre.toLowerCase() === target.toLocaleLowerCase() )
 }
 export async function ConvertColectionToPais(db:mongoDB.Db): Promise<Pais[]> {
   const col = await db.collection("paises").find().toArray();
@@ -19,6 +21,7 @@ export async function ConvertDocumentToPais(document:mongoDB.WithId<mongoDB.BSON
   let pais:Pais = new Pais( document.nombre,document.provincias )
   return pais
 }
+
 export async function getPais(target:string ) {
   const doc = await collections.paises?.findOne( {nombre: target} )
   let pais = ConvertDocumentToPais(doc!)  
@@ -33,9 +36,7 @@ export async function findProvincia(pais:Pais,target:string) {
   return pais.provincias.find( ( provincia ) => provincia.nombre.toLowerCase()===target.toLowerCase() )  
 }
 
-async function connectToDatabase () {
-    // dotenv.config();
-  
+async function connectToDatabase () {  
     const client: mongoDB.MongoClient = new mongoDB.MongoClient(DB_CONN_STRING);
             
     await client.connect();
@@ -46,6 +47,6 @@ async function connectToDatabase () {
        
     console.log(`Successfully connected to database: ${db.databaseName} and collection: ${paisesCollection.collectionName}`);
     return db;
-  }
+}
   
 export const dbPromise =  connectToDatabase()

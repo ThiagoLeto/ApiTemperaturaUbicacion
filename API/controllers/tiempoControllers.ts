@@ -6,9 +6,6 @@ import { Tiempo } from '../models/Tiempo';
 
 
 export default{
-    getTiempo: (async (_req,_res)=> {
-        
-    }),
 
     addTiempo: (async (_req,_res)=> {
         const tiempo  = _req.body as Tiempo

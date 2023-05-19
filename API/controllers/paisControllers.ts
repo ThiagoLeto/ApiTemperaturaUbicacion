@@ -24,7 +24,6 @@ export default {
           const existePais = await collections.paises?.findOne({ nombre: newPais.nombre });
           console.log("wat")
           if(existePais){ return _res.status(400).send("Ya existe (leto no podemos poner eso)") }
-          
           const r = await collections.paises?.insertOne(newPais);
           r
               ? _res.status(201).send(`Se creo yei ${r.insertedId}`)
